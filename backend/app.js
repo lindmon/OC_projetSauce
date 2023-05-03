@@ -1,4 +1,5 @@
 const express = require('express');
+const helmet = require("helmet");
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/user');
 require("dotenv").config();
@@ -8,7 +9,8 @@ const path = require('path');
 
 //Connecter à MongoDb
 const pass = process.env.MONGODB_PASSWORD;
-mongoose.connect(`mongodb+srv://lindmon:${pass}@cluster0.qyetu4h.mongodb.net/test`,
+const user = process.env.MONGODB_USER
+mongoose.connect(`mongodb+srv://${user}:${pass}@cluster0.qyetu4h.mongodb.net/test`,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
@@ -16,6 +18,13 @@ mongoose.connect(`mongodb+srv://lindmon:${pass}@cluster0.qyetu4h.mongodb.net/tes
 
 //Initialiser express
 const app = express();
+
+//Initialiser Helmet pour la sécurité
+app.use(helmet({
+  //Changer l'option pour permettre de télécharer les images
+  crossOriginResourcePolicy:  { policy: "same-site" }
+}));
+
 //CORS pour permettre de connecter de n'importe quelle ip
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
