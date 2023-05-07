@@ -1,11 +1,11 @@
 const express = require('express');
-const helmet = require("helmet");
+const path = require('path');
+const helmet = require('helmet');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/user');
 require("dotenv").config();
 const sauceRoutes = require('./routes/sauce');
 const Sauce = require('./models/Sauce');
-const path = require('path');
 
 //Connecter à MongoDb
 const pass = process.env.MONGODB_PASSWORD;
